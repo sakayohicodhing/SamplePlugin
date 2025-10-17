@@ -12,8 +12,12 @@ import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.World;
+import org.bukkit.entity.Cow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.Horse;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -97,15 +101,22 @@ public final class Main extends JavaPlugin implements Listener {
 
   @EventHandler
   public void onHitAnimal(EntityDamageByEntityEvent e) {
-    if (e.getDamager() instanceof Player player) {
-      ItemStack item = player.getInventory().getItemInMainHand();
-      player.sendMessage("動物を殴りましたね！！ひどい！！そんなことするなんて！");
-      String[] colors = {"§a", "§b", "§c", "§d", "§e"};
-      Arrays.stream(colors).forEach(color -> {
-        String message = "無駄な殺生はしないでね";
-        player.sendMessage(color + message);
-      });
-    }
+    String message;
+    Entity entity = e.getEntity();
 
+    message = switch (entity) {
+      case Cow cow -> "🐄牛を殴るなんて...明日の牛乳はなし！！";
+      case Pig pig -> "ブヒ！？っと豚が悲しそうにブヒブヒいう";
+      case Horse horse -> "馬が、ところでお前、俺より足が速いんか？と挑発している。";
+      default -> "かわいそうに..無惨だ";
+    };
+    Player player = (Player) e.getDamager();
+    player.sendMessage(message);
+
+    String commonMessage = "無駄な殺生はするな";
+    String[] colors = {"§a", "§b", "§c", "§d", "§e"};
+    Arrays.stream(colors).forEach(color -> {
+      player.sendMessage(color + message);
+    });
   }
 }
