@@ -116,7 +116,7 @@ public final class Main extends JavaPlugin implements Listener {
     String commonMessage = "無駄な殺生はするな";
     String[] colors = {"§a", "§b", "§c", "§d", "§e"};
     Arrays.stream(colors).forEach(color -> {
-      player.sendMessage(color + commonMessage);
+      player.sendMessage(color + commonMessage + "!!");
     });
   }
 }
