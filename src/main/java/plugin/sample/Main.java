@@ -2,8 +2,6 @@ package plugin.sample;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +14,6 @@ import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Horse;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -36,7 +33,7 @@ public final class Main extends JavaPlugin implements Listener {
   @Override
   public void onEnable() {
     Bukkit.getPluginManager().registerEvents(this, this);
-
+    Objects.requireNonNull(getCommand("levelup")).setExecutor(new LevelManageCommand());
   }
 
   /**
@@ -70,15 +67,8 @@ public final class Main extends JavaPlugin implements Listener {
         // 追加した情報で再設定する。
         firework.setFireworkMeta(fireworkMeta);
       }
-      player.sendMessage("素敵な花火だ！　count = " + count);
-      Path path = Path.of("fireWorks");
-      Files.writeString(path, "たーまやー");
-      player.sendMessage(Files.readString(path));
     }
-
     count++;
-
-
   }
 
   @EventHandler
